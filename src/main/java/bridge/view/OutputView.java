@@ -10,7 +10,11 @@ import java.util.StringJoiner;
  */
 public class OutputView {
     private static final String LINE_SEPARATOR = System.lineSeparator();
-    private static final String BRIEDGE_DELIMETER = " | ";
+    private static final String BRIDGE_DELIMITER = " | ";
+
+    public void printStartGameMessage() {
+        System.out.println("다리 건너기 게임을 시작합니다.");
+    }
 
     /**
      * 현재까지 이동한 다리의 상태를 정해진 형식에 맞춰 출력한다.
@@ -18,6 +22,7 @@ public class OutputView {
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void printMap(List<MovingResult> result) {
+        System.out.println();
         System.out.println(drawUpMap(result));
         System.out.println(drawDownMap(result));
     }
@@ -28,7 +33,7 @@ public class OutputView {
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void printResult(List<MovingResult> results, boolean isSuccess, int tryCount) {
-        System.out.println("최종 게임 결과");
+        System.out.println(LINE_SEPARATOR + "최종 게임 결과");
         printMap(results);
         System.out.printf(LINE_SEPARATOR + "게임 성공 여부: %s", createSuccessMessage(isSuccess));
         System.out.printf(LINE_SEPARATOR + "총 시도한 횟수: %d", tryCount);
@@ -42,7 +47,7 @@ public class OutputView {
     }
 
     private String drawUpMap(List<MovingResult> result) {
-        StringJoiner stringJoiner = new StringJoiner(BRIEDGE_DELIMETER);
+        StringJoiner stringJoiner = new StringJoiner(BRIDGE_DELIMITER);
         result.stream()
                 .map(movingResult -> movingResultToString(movingResult, Moving.U))
                 .forEach(stringJoiner::add);
@@ -50,7 +55,7 @@ public class OutputView {
     }
 
     private String drawDownMap(List<MovingResult> result) {
-        StringJoiner stringJoiner = new StringJoiner(BRIEDGE_DELIMETER);
+        StringJoiner stringJoiner = new StringJoiner(BRIDGE_DELIMITER);
         result.stream()
                 .map(movingResult -> movingResultToString(movingResult, Moving.D))
                 .forEach(stringJoiner::add);

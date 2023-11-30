@@ -18,6 +18,7 @@ public class MainController {
     }
 
     public void run() {
+        outputView.printStartGameMessage();
         List<String> bridge = createBridge();
         startBridgeGame();
     }

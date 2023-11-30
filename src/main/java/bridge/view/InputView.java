@@ -8,16 +8,17 @@ import camp.nextstep.edu.missionutils.Console;
  * 사용자로부터 입력을 받는 역할을 한다.
  */
 public class InputView {
-    public static final String NOT_PROPER_BRIDGE_SIZE_MESSAGE = "다리 길이는 3부터 20 사이의 숫자여야 합니다.";
-    public static final String NOT_PROPER_MOVING_MESSAGE = "U 또는 D를 입력해야 합니다.";
-    public static final String NOT_PROPER_GAME_COMMAND_MESSAGE = "R 또는 Q를 입력해야 합니다.";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String NOT_PROPER_BRIDGE_SIZE_MESSAGE = "다리 길이는 3부터 20 사이의 숫자여야 합니다.";
+    private static final String NOT_PROPER_MOVING_MESSAGE = "U 또는 D를 입력해야 합니다.";
+    private static final String NOT_PROPER_GAME_COMMAND_MESSAGE = "R 또는 Q를 입력해야 합니다.";
 
     /**
      * 다리의 길이를 입력받는다.
      */
     public Integer readBridgeSize() {
         return (Integer) ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.println("다리의 길이를 입력해주세요.");
+            System.out.println(LINE_SEPARATOR + "다리의 길이를 입력해주세요.");
             String userInput = Console.readLine();
             validateBridgeSize(userInput);
             return Integer.parseInt(userInput);
@@ -36,7 +37,7 @@ public class InputView {
      */
     public String readMoving() {
         return (String) ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.println("이동할 칸을 선택해주세요. (위: U, 아래: D)");
+            System.out.println(LINE_SEPARATOR + "이동할 칸을 선택해주세요. (위: U, 아래: D)");
             String userInput = Console.readLine();
             validateMoving(userInput);
             return userInput;
@@ -52,7 +53,7 @@ public class InputView {
      */
     public String readGameCommand() {
         return (String) ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            System.out.println("게임을 다시 시도할지 여부를 입력해주세요. (재시도: R, 종료: Q)");
+            System.out.println(LINE_SEPARATOR + "게임을 다시 시도할지 여부를 입력해주세요. (재시도: R, 종료: Q)");
             String userInput = Console.readLine();
             validateGameCommand(userInput);
             return userInput;
