@@ -15,12 +15,12 @@ public class InputView {
     /**
      * 다리의 길이를 입력받는다.
      */
-    public int readBridgeSize() {
+    public Integer readBridgeSize() {
         return (Integer) ErrorHandler.retryUntilSuccessWithReturn(() -> {
             System.out.println("다리의 길이를 입력해주세요.");
             String userInput = Console.readLine();
             validateBridgeSize(userInput);
-            return userInput;
+            return Integer.parseInt(userInput);
         });
     }
 
