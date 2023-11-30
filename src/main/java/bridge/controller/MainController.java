@@ -33,8 +33,9 @@ public class MainController {
         BridgeGame bridgeGame = new BridgeGame(bridge);
         while (bridgeGame.isEnd()) {
             Moving moving = requestMoving();
-            if (!bridgeGame.move(moving)) {
-                outputView.printMap(bridgeGame.getResult());
+            boolean isSuccess = bridgeGame.move(moving);
+            outputView.printMap(bridgeGame.getResult());
+            if (!isSuccess && requestGameCommand()) {
                 bridgeGame.retry();
             }
         }
@@ -44,6 +45,18 @@ public class MainController {
         return (Moving) ErrorHandler.retryUntilSuccessWithReturn(() -> {
             String moving = inputView.readMoving();
             return Moving.valueOf(moving);
+        });
+    }
+
+    private Boolean requestGameCommand() {
+        return (Boolean) ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            String command = inputView.readGameCommand();
+            if (command.equals("R")) {
+                return true;
+            } else if (command.equals("Q")) {
+                return false;
+            }
+            throw new IllegalArgumentException("올바르지 않은 재시작 여부 커맨드입니다.");
         });
     }
 }

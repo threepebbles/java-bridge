@@ -52,4 +52,8 @@ public class BridgeGame {
     public List<MovingResult> getResult() {
         return result;
     }
+
+    public int getRetryCount() {
+        return retryCount;
+    }
 }
