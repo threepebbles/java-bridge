@@ -1,10 +1,10 @@
 package bridge.domain;
 
 public enum MovingResult {
-    UP_SUCCESS(Moving.UP, true),
-    UP_FAIL(Moving.UP, false),
-    DOWN_SUCCESS(Moving.DOWN, true),
-    DOWN_FAIL(Moving.DOWN, false);
+    UP_SUCCESS(Moving.U, true),
+    UP_FAIL(Moving.U, false),
+    DOWN_SUCCESS(Moving.D, true),
+    DOWN_FAIL(Moving.D, false);
     private final Moving moving;
     private final boolean isSuccess;
 

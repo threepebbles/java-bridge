@@ -44,7 +44,7 @@ public class OutputView {
     private String drawUpMap(List<MovingResult> result) {
         StringJoiner stringJoiner = new StringJoiner(BRIEDGE_DELIMETER);
         result.stream()
-                .map(movingResult -> movingResultToString(movingResult, Moving.UP))
+                .map(movingResult -> movingResultToString(movingResult, Moving.U))
                 .forEach(stringJoiner::add);
         return String.format("[ %s ]", stringJoiner);
     }
@@ -52,15 +52,18 @@ public class OutputView {
     private String drawDownMap(List<MovingResult> result) {
         StringJoiner stringJoiner = new StringJoiner(BRIEDGE_DELIMETER);
         result.stream()
-                .map(movingResult -> movingResultToString(movingResult, Moving.DOWN))
+                .map(movingResult -> movingResultToString(movingResult, Moving.D))
                 .forEach(stringJoiner::add);
         return String.format("[ %s ]", stringJoiner);
     }
 
     private String movingResultToString(MovingResult movingResult, Moving moving) {
-        if (movingResult.isSuccess() && moving.equals(movingResult.getMoving())) {
-            return "O";
+        if (moving.equals(movingResult.getMoving())) {
+            if (movingResult.isSuccess()) {
+                return "O";
+            }
+            return "X";
         }
-        return "X";
+        return " ";
     }
 }

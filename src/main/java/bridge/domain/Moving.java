@@ -1,8 +1,8 @@
 package bridge.domain;
 
 public enum Moving {
-    UP("U"),
-    DOWN("D");
+    U("U"),
+    D("D");
     private final String direction;
 
     Moving(String direction) {
