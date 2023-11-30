@@ -54,7 +54,9 @@ public class BridgeGame {
                 .equals(moving.getDirection());
         MovingResult movingResult = MovingResult.valueOf(moving, isSuccess);
         result.add(movingResult);
-        playerPosition++;
+        if (isSuccess) {
+            playerPosition++;
+        }
         return isSuccess;
     }
 
