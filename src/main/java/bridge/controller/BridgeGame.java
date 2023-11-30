@@ -1,7 +1,11 @@
-package bridge.service;
+package bridge.controller;
 
 import bridge.domain.Moving;
 import bridge.domain.MovingResult;
+import bridge.error.ErrorHandler;
+import bridge.service.BridgeService;
+import bridge.view.InputView;
+import bridge.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +13,35 @@ import java.util.List;
  * 다리 건너기 게임을 관리하는 클래스
  */
 public class BridgeGame {
-    private final List<String> bridge;
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    private List<String> bridge;
     private List<MovingResult> result = new ArrayList<>();
     private int playerPosition;
     private int retryCount;
 
-    public BridgeGame(List<String> bridge) {
-        this.bridge = bridge;
+    public BridgeGame(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        initGame();
+    }
+
+    private void initGame() {
+        bridge = BridgeService.getBridge();
         playerPosition = 0;
         retryCount = 0;
+    }
+
+    public void startGame() {
+        while (!isEnd()) {
+            Moving moving = requestMoving();
+            boolean isSuccess = move(moving);
+            outputView.printMap(result);
+            if (!isSuccess) {
+                return;
+            }
+        }
     }
 
     /**
@@ -43,6 +67,14 @@ public class BridgeGame {
         result = new ArrayList<>();
         playerPosition = 0;
         retryCount++;
+        startGame();
+    }
+
+    private Moving requestMoving() {
+        return (Moving) ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            String moving = inputView.readMoving();
+            return Moving.valueOf(moving);
+        });
     }
 
     public boolean isEnd() {

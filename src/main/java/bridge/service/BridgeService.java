@@ -6,14 +6,14 @@ import bridge.repository.BridgeRepository;
 import java.util.List;
 
 public class BridgeService {
-    public List<String> createBridge(int size, BridgeNumberGenerator bridgeNumberGenerator) {
+    public static List<String> createBridge(int size, BridgeNumberGenerator bridgeNumberGenerator) {
         BridgeMaker bridgeMaker = new BridgeMaker(bridgeNumberGenerator);
         List<String> bridge = bridgeMaker.makeBridge(size);
         BridgeRepository.updateBridge(bridge);
         return getBridge();
     }
 
-    public List<String> getBridge() {
+    public static List<String> getBridge() {
         return BridgeRepository.getBridge();
     }
 }

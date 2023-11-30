@@ -1,9 +1,7 @@
 package bridge.controller;
 
 import bridge.domain.BridgeRandomNumberGenerator;
-import bridge.domain.Moving;
 import bridge.error.ErrorHandler;
-import bridge.service.BridgeGame;
 import bridge.service.BridgeService;
 import bridge.view.InputView;
 import bridge.view.OutputView;
@@ -12,7 +10,7 @@ import java.util.List;
 public class MainController {
     private final InputView inputView;
     private final OutputView outputView;
-    private BridgeService bridgeService;
+    private BridgeGame bridgeGame;
 
     public MainController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -21,31 +19,25 @@ public class MainController {
 
     public void run() {
         List<String> bridge = createBridge();
-        startBridgeGame(bridge);
+        startBridgeGame();
     }
 
     private List<String> createBridge() {
         int bridgeSize = inputView.readBridgeSize();
-        return bridgeService.createBridge(bridgeSize, new BridgeRandomNumberGenerator());
+        return BridgeService.createBridge(bridgeSize, new BridgeRandomNumberGenerator());
     }
 
-    private void startBridgeGame(List<String> bridge) {
-        BridgeGame bridgeGame = new BridgeGame(bridge);
-        while (bridgeGame.isEnd()) {
-            Moving moving = requestMoving();
-            boolean isSuccess = bridgeGame.move(moving);
-            outputView.printMap(bridgeGame.getResult());
-            if (!isSuccess && requestGameCommand()) {
-                bridgeGame.retry();
+    private void startBridgeGame() {
+        bridgeGame = new BridgeGame(inputView, outputView);
+        bridgeGame.startGame();
+        while (!bridgeGame.isEnd()) {
+            boolean isRetry = requestGameCommand();
+            if (!isRetry) {
+                break;
             }
+            bridgeGame.retry();
         }
-    }
-
-    private Moving requestMoving() {
-        return (Moving) ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            String moving = inputView.readMoving();
-            return Moving.valueOf(moving);
-        });
+        outputView.printResult(bridgeGame.getResult(), bridgeGame.isEnd(), bridgeGame.getRetryCount());
     }
 
     private Boolean requestGameCommand() {
