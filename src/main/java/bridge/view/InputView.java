@@ -9,13 +9,14 @@ import camp.nextstep.edu.missionutils.Console;
  */
 public class InputView {
     public static final String NOT_PROPER_BRIDGE_SIZE_MESSAGE = "다리 길이는 3부터 20 사이의 숫자여야 합니다.";
+    public static final String NOT_PROPER_MOVING_MESSAGE = "U 또는 D를 입력해야 합니다.";
 
     /**
      * 다리의 길이를 입력받는다.
      */
     public int readBridgeSize() {
         return (Integer) ErrorHandler.retryUntilSuccessWithReturn(() -> {
-            // 입력 문구
+            System.out.println("다리의 길이를 입력해주세요.");
             String userInput = Console.readLine();
             validateBridgeSize(userInput);
             return userInput;
@@ -33,7 +34,16 @@ public class InputView {
      * 사용자가 이동할 칸을 입력받는다.
      */
     public String readMoving() {
-        return null;
+        return (String) ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.println("이동할 칸을 선택해주세요. (위: U, 아래: D)");
+            String userInput = Console.readLine();
+            validateMoving(userInput);
+            return userInput;
+        });
+    }
+
+    private void validateMoving(String userInput) {
+        Validator.checkBlank(userInput, NOT_PROPER_MOVING_MESSAGE);
     }
 
     /**
