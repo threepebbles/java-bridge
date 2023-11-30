@@ -1,5 +1,7 @@
 package bridge.service;
 
+import bridge.domain.Moving;
+import bridge.domain.MovingResult;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  */
 public class BridgeGame {
     private final List<String> bridge;
-    private List<Boolean> result = new ArrayList<>();
+    private List<MovingResult> result = new ArrayList<>();
     private int playerPosition;
     private int retryCount;
 
@@ -23,17 +25,13 @@ public class BridgeGame {
      * <p>
      * 이동을 위해 필요한 메서드의 반환 타입(return type), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
-    public boolean move(String moving) {
-        if (isEnd()) {
-            return false;
-        }
-
-        boolean isRight = bridge.get(playerPosition).equals(moving);
-        if (isRight) {
-            playerPosition++;
-            return true;
-        }
-        return false;
+    public boolean move(Moving moving) {
+        boolean isSuccess = bridge.get(playerPosition)
+                .equals(moving.getDirection());
+        MovingResult movingResult = MovingResult.valueOf(moving, isSuccess);
+        result.add(movingResult);
+        playerPosition++;
+        return isSuccess;
     }
 
     /**
@@ -51,7 +49,7 @@ public class BridgeGame {
         return playerPosition == bridge.size();
     }
 
-    public List<Boolean> getResult() {
+    public List<MovingResult> getResult() {
         return result;
     }
 }

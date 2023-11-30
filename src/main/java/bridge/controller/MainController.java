@@ -33,8 +33,8 @@ public class MainController {
         BridgeGame bridgeGame = new BridgeGame(bridge);
         while (bridgeGame.isEnd()) {
             Moving moving = requestMoving();
-            if (!bridgeGame.move(moving.getDirection())) {
-                // outputView.printResult(bridgeGame.getResult());
+            if (!bridgeGame.move(moving)) {
+                outputView.printMap(bridgeGame.getResult());
                 bridgeGame.retry();
             }
         }
