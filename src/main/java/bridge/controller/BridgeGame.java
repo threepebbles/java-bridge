@@ -19,7 +19,7 @@ public class BridgeGame {
     private List<String> bridge;
     private List<MovingResult> result = new ArrayList<>();
     private int playerPosition;
-    private int retryCount;
+    private int tryCount;
 
     public BridgeGame(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -30,7 +30,7 @@ public class BridgeGame {
     private void initGame() {
         bridge = BridgeService.getBridge();
         playerPosition = 0;
-        retryCount = 0;
+        tryCount = 1;
     }
 
     public void startGame() {
@@ -66,7 +66,7 @@ public class BridgeGame {
     public void retry() {
         result = new ArrayList<>();
         playerPosition = 0;
-        retryCount++;
+        tryCount++;
         startGame();
     }
 
@@ -85,7 +85,7 @@ public class BridgeGame {
         return result;
     }
 
-    public int getRetryCount() {
-        return retryCount;
+    public int getTryCount() {
+        return tryCount;
     }
 }

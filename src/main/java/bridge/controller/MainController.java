@@ -37,7 +37,7 @@ public class MainController {
             }
             bridgeGame.retry();
         }
-        outputView.printResult(bridgeGame.getResult(), bridgeGame.isEnd(), bridgeGame.getRetryCount());
+        outputView.printResult(bridgeGame.getResult(), bridgeGame.isEnd(), bridgeGame.getTryCount());
     }
 
     private Boolean requestGameCommand() {
