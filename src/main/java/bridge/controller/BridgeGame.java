@@ -53,11 +53,15 @@ public class BridgeGame {
         boolean isSuccess = bridge.get(playerPosition)
                 .equals(moving.getDirection());
         MovingResult movingResult = MovingResult.valueOf(moving, isSuccess);
+        movePlayer(isSuccess);
         result.add(movingResult);
+        return isSuccess;
+    }
+
+    private void movePlayer(boolean isSuccess) {
         if (isSuccess) {
             playerPosition++;
         }
-        return isSuccess;
     }
 
     /**
