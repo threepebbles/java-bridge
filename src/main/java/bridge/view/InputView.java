@@ -10,6 +10,7 @@ import camp.nextstep.edu.missionutils.Console;
 public class InputView {
     public static final String NOT_PROPER_BRIDGE_SIZE_MESSAGE = "다리 길이는 3부터 20 사이의 숫자여야 합니다.";
     public static final String NOT_PROPER_MOVING_MESSAGE = "U 또는 D를 입력해야 합니다.";
+    public static final String NOT_PROPER_GAME_COMMAND_MESSAGE = "R 또는 Q를 입력해야 합니다.";
 
     /**
      * 다리의 길이를 입력받는다.
@@ -50,6 +51,15 @@ public class InputView {
      * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
      */
     public String readGameCommand() {
-        return null;
+        return (String) ErrorHandler.retryUntilSuccessWithReturn(() -> {
+            System.out.println("게임을 다시 시도할지 여부를 입력해주세요. (재시도: R, 종료: Q)");
+            String userInput = Console.readLine();
+            validateGameCommand(userInput);
+            return userInput;
+        });
+    }
+
+    private void validateGameCommand(String userInput) {
+        Validator.checkBlank(userInput, NOT_PROPER_GAME_COMMAND_MESSAGE);
     }
 }
